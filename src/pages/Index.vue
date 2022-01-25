@@ -20,7 +20,7 @@
     <q-btn no-caps class="q-my-sm q-mr-lg" color="primary" icon="mdi-text-search" label="Find First Available appointment per photographer" @click="onClick" />
  <!--    <q-btn class="q-my-sm q-ml-sm" color="green-5" icon="mdi-close-circle-multiple-outline" label="Clear available appointments" @click="onClear" />
    <q-checkbox v-model="firstbreak" label="Stop on first free space" />  --> 
-    <q-input outlined style="width: 50%" v-model="result" type="textarea" label="Result" />
+    <q-input outlined autogrow style="width: 50%" v-model="result" type="textarea" label="Free Timeslots per Photographer" />
   </q-page>
 </template>
 
