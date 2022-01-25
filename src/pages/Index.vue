@@ -17,8 +17,9 @@
       />
     </DxScheduler>
     <q-input class="q-mt-sm" outlined style="width: 50%" v-model="durationInMinutes" type="text" label="Booking duration in minutes" />
-    <q-btn class="q-my-sm" color="primary" icon="mdi-text-search" label="Find First Available appointment per photographer" @click="onClick" />
-    <q-btn class="q-my-sm q-ml-sm" color="green-3" icon="mdi-close-circle-multiple-outline" label="Clear available appointments" @click="onClear" />
+    <q-btn no-caps class="q-my-sm" color="primary" icon="mdi-text-search" label="Find First Available appointment per photographer" @click="onClick" />
+    <q-btn class="q-my-sm q-ml-sm" color="green-5" icon="mdi-close-circle-multiple-outline" label="Clear available appointments" @click="onClear" />
+    <q-checkbox v-model="firstbreak" label="Stop on first free space" />
     <q-input outlined style="width: 50%" v-model="result" type="textarea" label="Result" />
   </q-page>
 </template>
@@ -67,14 +68,14 @@ const data = {
       ],
       "bookings": [
         {
+          "id": "11",
+          "starts": "2020-11-25T13:00:00.000Z",
+          "ends": "2020-11-25T13:45:00.000Z"
+        },
+        {
           "id": "10",
           "starts": "2020-11-25T15:00:00.000Z",
           "ends": "2020-11-25T16:00:00.000Z"
-        },
-        {
-          "id": "11",
-          "starts": "2020-11-25T13:00:00.000Z",
-          "ends": "2020-11-25T13:20:00.000Z"
         }
       ]
     }
@@ -84,6 +85,7 @@ const data = {
 export default {
   data () {
     return {
+      firstbreak: true,
       durationInMinutes: 30,
       result: '',
       views: ['day', 'week', 'month'],
@@ -139,7 +141,7 @@ export default {
     isSlotInBooking (slot, bookings) {
       let result = 0
       for(const booking of bookings) {
-        if (booking.start >= slot.start && booking.start < slot.end) {
+        if ((booking.start >= slot.start && booking.start < slot.end)/* || (booking.end > slot.start)*/) {
           result = booking.id
           break
         }
@@ -175,8 +177,9 @@ export default {
           }
           this.addAppointment(appointment)
           this.appointments.push(appointment)
-
-          break
+          if (this.firstbreak) {
+            break
+          }
         }        
         if (bookingId) {
           const booking = bookings.find(f => f.id === bookingId)
@@ -190,7 +193,9 @@ export default {
       this.timeSlots = []
       data.photographers.forEach(photographer => {
         for(const avail of photographer.availabilities) {
-          this.findFreeSlots(photographer, avail, durationInMinutes, photographer.bookings)
+          if (avail.duration >= durationInMinutes) {
+            this.findFreeSlots(photographer, avail, durationInMinutes, photographer.bookings)
+          }
         }
       })
       return this.timeSlots
