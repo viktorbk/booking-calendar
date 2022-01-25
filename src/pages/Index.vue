@@ -17,9 +17,9 @@
       />
     </DxScheduler>
     <q-input class="q-mt-sm" outlined style="width: 50%" v-model="durationInMinutes" type="text" label="Booking duration in minutes" />
-    <q-btn no-caps class="q-my-sm" color="primary" icon="mdi-text-search" label="Find First Available appointment per photographer" @click="onClick" />
-    <q-btn class="q-my-sm q-ml-sm" color="green-5" icon="mdi-close-circle-multiple-outline" label="Clear available appointments" @click="onClear" />
-    <q-checkbox v-model="firstbreak" label="Stop on first free space" />
+    <q-btn no-caps class="q-my-sm q-mr-lg" color="primary" icon="mdi-text-search" label="Find First Available appointment per photographer" @click="onClick" />
+ <!--    <q-btn class="q-my-sm q-ml-sm" color="green-5" icon="mdi-close-circle-multiple-outline" label="Clear available appointments" @click="onClear" />
+   <q-checkbox v-model="firstbreak" label="Stop on first free space" />  --> 
     <q-input outlined style="width: 50%" v-model="result" type="textarea" label="Result" />
   </q-page>
 </template>
@@ -233,6 +233,7 @@ export default {
       this.result = ''
     },
     onClick () {
+      this.onClear()
       const slots = this.availableTimeSlotsForBooking(this.durationInMinutes * 1)
       this.result = JSON.stringify(slots, null, 2)
     }
