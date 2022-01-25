@@ -206,7 +206,7 @@ export default {
         for(const availability of photographer.availabilities) {
           this.dataSource.push({
             id: photographer.id + Date.now(),
-            text: photographer.name,
+            text: photographer.name + ' - availabale',
             startDate: availability.start,
             endDate: availability.end,
             typeId: 1
@@ -215,7 +215,7 @@ export default {
         for(const booking of photographer.bookings) {
           this.dataSource.push({
             id: photographer.id + Date.now(),
-            text: photographer.name,
+            text: photographer.name + ' - booked',
             startDate: booking.start,
             endDate: booking.end,
             typeId: 2
